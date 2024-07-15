@@ -26,13 +26,32 @@ def get_info():
 def form():
    header(); info_part = get_info()
    print("\n#Scan_Image")
+#=============================================
+# Scan Image
+def scan_image():
+   # input & print
+   print("Enter File Path"); image = input("\n==> "); header()
+   print("=> ",image)
 
 #=============================================
 from Run.get_partition import get_partition_info
-import platform, os, time
+import os, time
 
 # Loop
 while True:
    form()
-   a = input()
-   # choose()
+
+   # Choose
+   select = input("\n==> ")
+   if select == "x": break
+
+   elif select == "Scan_Image":
+      header(); scan_image()
+
+
+   # # if is num   
+   # elif int(select) != 0:
+   #    header()
+   #    # get partition & print
+   #    get_part = info_part.splitlines()[int(select) - 1]
+   #    print(get_part[4:]); print("""\n#Scan #Get_Image"""); check(get_part[7])
