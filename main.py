@@ -49,11 +49,14 @@ def scan_image():
    # input & print
    print("Enter File Path"); image = input("\n==> "); header()
    print("=> ",image)
-   # input & print
-   print("CR2/?"); file = input("\n==> "); header()
-   print("=> ",image); print("=> ",file)
 
-   if image != "x":      
+   if image == "x":  
+      return
+   else:
+      # input & print
+      print("CR2/CR3/x"); file = input("\n==> "); header()
+      print("=> ",image); print("=> ",file)
+
       # Extension
       if file == "CR2":
          print("\n")
