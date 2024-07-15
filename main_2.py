@@ -26,7 +26,46 @@ def get_info():
 def form():
    header(); info_part = get_info()
    print("\n#Scan_Image")
+
+   return info_part
 #=============================================
+def forks(partition):
+   key = input("\n==> ")
+
+   if key == "x":
+      return
+   elif key == "Scan":
+      scan(partition)
+   elif key == "Get_Image":
+      get_image(partition)
+
+# Get Image      
+def get_image(partition):
+   disk = r'\\.\{}:'.format(partition) # read
+   out_file = f"Partition_{partition}.img"  # out file
+
+   # read & write
+   with open(disk, 'rb') as disk:
+       with open(out_file, 'wb') as w:
+           while True:
+               byte = disk.read(1048576) # 1 MB
+               if not byte:
+                   break  # Exit loop
+               # Write byte
+               w.write(byte)
+
+# Scan
+def scan(partition):
+   # input extension
+   print("Extension: CR2/CR3"); extension = input("\n==> "); header()
+   print("=> ",path, " => ",extension)
+   
+   if extension == "CR2":
+      Scan_CR2(path)
+
+   elif extension == "CR3":
+      Scan_CR3(path)
+
 # Scan Image
 def scan_image():
    # input path
@@ -54,7 +93,7 @@ import os, time
 
 # Loop
 while True:
-   form()
+   info_part = form()
 
    # Choose
    select = input("\n==> ")
@@ -63,10 +102,9 @@ while True:
    elif select == "Scan_Image":
       header(); scan_image()
 
-
-   # # if is num   
-   # elif int(select) != 0:
-   #    header()
-   #    # get partition & print
-   #    get_part = info_part.splitlines()[int(select) - 1]
-   #    print(get_part[4:]); print("""\n#Scan #Get_Image"""); check(get_part[7])
+   # if is num   
+   elif int(select) != 0:
+      header()
+      # get partition & print
+      get_part = info_part.splitlines()[int(select) - 1]
+      print(get_part[4:]); print("""\n#Scan #Get_Image"""); forks(get_part[7])
