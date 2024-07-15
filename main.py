@@ -21,13 +21,35 @@ def get_info():
 
    # out ket qua
    return info_part
+#=============================================
+# Create Form & Get info
+def form():
+   header(); info_part = get_info()
+   print("\n#Scan_Image")
 
+# Choose partition
+def choose():
+   select = input("\n==> ")
+
+   if select == "x": return
+   elif select == "Scan_Image":
+      header()
+      scan_image()
+
+   # if is num   
+   elif int(select) != 0:
+      header()
+      # get partition & print
+      get_part = info_part.splitlines()[int(select) - 1]
+      print(get_part[4:]); print("""\n#Scan #Get_Image"""); check(get_part[7])
+
+#=============================================
 # Tool
-def check(partition):
-   key = input("\n==> ")
+# def forks(partition):
+#    key = input("\n==> ")
 
-   if key == "Get_Image":
-      get_image(partition)
+#    if key == "Get_Image":
+#       get_image(partition)
 
 # Get Image      
 def get_image(partition):
@@ -70,23 +92,6 @@ import platform, os, time
 
 # Loop
 while True:
-   # Create Form & call def get info
-   header(); info_part = get_info()
-   print("\n#Scan_Image")
-
-   # Choose partition
-   select_partition = input("\n==> ")
-   # break 
-   if select_partition == "x": break
-   # Scan_Image
-   if select_partition == "Scan_Image":
-      header()
-      scan_image()
-
-   # if int   
-   elif int(select_partition) != 0:
-      header()
-      # get partition & print
-      get_part = info_part.splitlines()[int(select_partition) - 1]
-      print(get_part[4:]); print("""\n#Scan #Get_Image"""); check(get_part[7])
-      
+   form()
+   a = input()
+   # choose()

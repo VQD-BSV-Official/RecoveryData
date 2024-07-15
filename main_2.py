@@ -58,13 +58,22 @@ def get_image(partition):
 def scan(partition):
    # input extension
    print("Extension: CR2/CR3"); extension = input("\n==> "); header()
-   print("=> ",path, " => ",extension)
+   print("=> ",extension)
    
    if extension == "CR2":
-      Scan_CR2(path)
+      Scan_CR2(partition)
 
    elif extension == "CR3":
-      Scan_CR3(path)
+      file = input("\n==> File: ");
+
+      # Lấy số byte để addbyte
+      with open(file, "rb") as r:
+         data_find = r.read()
+      # start count bytes
+      offset_byte = data_find.find(b"\x08\x00\x00\x00\x86\x00\x00\x00\xD7\x03\x02\x00\x0B\x58\xFF\xFF")
+      addbyte = len(data_find[offset_byte:])
+
+      Scan_CR3(partition, addbyte)
 
 # Scan Image
 def scan_image():
@@ -88,7 +97,7 @@ def scan_image():
 #=============================================
 from Run.get_partition import get_partition_info
 from Run.Scan_CR2 import Scan_CR2_Image
-from Run.Scan_CR3 import Scan_CR3_Image
+from Run.Scan_CR3 import Scan_CR3
 import os, time
 
 # Loop

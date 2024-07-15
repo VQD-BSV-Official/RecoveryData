@@ -1,10 +1,11 @@
-def Scan_CR3_Partition(partition, addbyte):
+def Scan_CR3(partition, addbyte):
 	import os, subprocess
 
 	block_size = 512
-	data_disk = open(r"\\\\.\\{}:".format(partition), "rb")
+	data_disk = open(f"\\\\.\\{partition}:", "rb")
 	byte = data_disk.read(block_size) # read 512 byte first
-	offset = conut = 0
+	offset = 0
+	conut = 1
 	drec = False
 
 	while byte:

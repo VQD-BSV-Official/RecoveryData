@@ -20,7 +20,7 @@ def Scan_CR2_Image(image):
                         count += 1
                         # Save
 
-                        with open(f"./IMG/IMG_{count}.CR2", "wb") as w:
+                        with open(f"IMG_{count}.CR2", "wb") as w:
                             if count == 1:
                                 print(f" _IMG_{count}.CR2")
                             else:

@@ -1,6 +1,15 @@
 import os, subprocess
 
 def Scan_CR3_Partition():
+	#Get add Byte
+	with open("File_.CR3", "rb") as r:
+		data_find = r.read()
+	# start count bytes
+	offset_byte = data_find.find(b"\x08\x00\x00\x00\x86\x00\x00\x00\xD7\x03\x02\x00\x0B\x58\xFF\xFF")
+	add_byte = len(data_find[offset_byte:])
+
+	print("==> ", add_byte)
+
 	block_size = 512
 	data_disk = open("\\\\.\\D:", "rb")
 	byte = data_disk.read(block_size) # read 512 byte first
@@ -24,9 +33,9 @@ def Scan_CR3_Partition():
 				find_end 	= byte.find(b"\x08\x00\x00\x00\x86\x00\x00\x00\xD7\x03\x02\x00\x0B\x58\xFF\xFF")
 
 				if find_end >= 0:
-					byte = data_disk.read(7762)
+					byte = data_disk.read(add_byte)
 					#Lưu end
-					Save.write(byte[:find_end + 7762 - 512])
+					Save.write(byte[:find_end + add_byte - 512])
 
 					data_disk.seek((offset+1)*block_size)
 					drec = False
