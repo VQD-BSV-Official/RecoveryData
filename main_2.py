@@ -29,12 +29,27 @@ def form():
 #=============================================
 # Scan Image
 def scan_image():
-   # input & print
-   print("Enter File Path"); image = input("\n==> "); header()
-   print("=> ",image)
+   # input path
+   print("Enter File Path"); path = input("\n==> "); header()
+   print("=> ",path)
+
+   if path == "x":
+      return
+   else:
+      # input extension
+      print("Extension: CR2/CR3"); extension = input("\n==> "); header()
+      print("=> ",path, " => ",extension)
+      
+      if extension == "CR2":
+         Scan_CR2_Image(path)
+
+      elif extension == "CR3":
+         Scan_CR3_Image(path)
 
 #=============================================
 from Run.get_partition import get_partition_info
+from Run.Scan_CR2 import Scan_CR2_Image
+from Run.Scan_CR3 import Scan_CR3_Image
 import os, time
 
 # Loop
