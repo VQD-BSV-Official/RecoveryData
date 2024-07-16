@@ -1,15 +1,6 @@
 import os, subprocess
 
 def Scan_CR3_Partition():
-	#Get add Byte
-	with open("File_.CR3", "rb") as r:
-		data_find = r.read()
-	# start count bytes
-	offset_byte = data_find.find(b"\x08\x00\x00\x00\x86\x00\x00\x00\xD7\x03\x02\x00\x0B\x58\xFF\xFF")
-	add_byte = len(data_find[offset_byte:])
-
-	print("==> ", add_byte)
-
 	block_size = 512
 	data_disk = open("\\\\.\\D:", "rb")
 	byte = data_disk.read(block_size) # read 512 byte first
@@ -46,3 +37,37 @@ def Scan_CR3_Partition():
 		byte = data_disk.read(block_size)
 		offset += 1
 	data_disk.close()
+
+def Scan_CR3_Image(image_path, output_dir):
+    with open(image_path, 'rb') as f:
+        data = f.read()
+
+    start_marker = b"\x00\x00\x00\x18\x66\x74\x79\x70\x63\x72\x78\x20\x00\x00\x00\x01"
+    mid_marker = b"\x08\x00\x00\x00\x86\x00\x00\x00\xD7\x03\x02\x00\x0B\x58\xFF\xFF"
+    end_marker_size = 7762
+
+    file_count = 0
+    start_offset = data.find(start_marker)
+    
+    while start_offset != -1:
+        middle_offset = data.find(mid_marker, start_offset)
+        
+        if middle_offset != -1:
+            end_offset = middle_offset + end_marker_size
+            file_count += 1
+
+            cr3_filename = os.path.join(output_dir, f'IMG_{file_count}.CR3')
+            with open(cr3_filename, 'wb') as out_file:
+                out_file.write(data[start_offset:end_offset])
+
+            print(f'Extracted {cr3_filename} from {start_offset} to {end_offset}')
+            start_offset = data.find(start_marker, end_offset)
+        else:
+            break
+
+# Đường dẫn đến tệp phân vùng
+image_path = 'Partition_D.img'
+output_dir = os.getcwd()
+os.makedirs(output_dir, exist_ok=True)
+
+Scan_CR3_Image(image_path, output_dir)
