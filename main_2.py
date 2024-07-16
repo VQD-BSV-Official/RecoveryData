@@ -1,9 +1,7 @@
 # header RecoveryData
 def header():
-   os.system("cls")
-
    with open("header.txt", "r") as r:
-      print(r.read())
+      os.system("cls"); print(r.read())
 
 # partition info
 def get_info():
@@ -22,22 +20,25 @@ def get_info():
    # out ket qua
    return info_part
 #=============================================
-# Create Form & Get info
+# Create Form & return info
 def form():
    header(); info_part = get_info()
    print("\n#Scan_Image")
 
    return info_part
 #=============================================
-def forks(partition):
+def forks(partition, name_part):
    key = input("\n==> ")
 
-   if key == "x":
-      return
-   elif key == "Scan":
-      scan(partition)
-   elif key == "Get_Image":
-      get_image(partition)
+   actions = {
+       "x": lambda: None,  # break
+       "Scan": lambda: scan(partition, name_part),
+       "Get_Image": lambda: get_image(partition)
+   }
+
+   # check & break if key là "x"
+   actions.get(key, lambda: None)()
+
 
 # Get Image      
 def get_image(partition):
@@ -54,17 +55,24 @@ def get_image(partition):
                # Write byte
                w.write(byte)
 
+
 # Scan
-def scan(partition):
+def scan(partition, name_part):
+   header(); print(name_part)
    # input extension
-   print("Extension: CR2/CR3"); extension = input("\n==> "); header()
-   print("=> ",extension)
+   print("Extension: CR2/CR3"); extension = input("\n==> ")
+   header(); print(name_part)
+   print("=> Scan",extension)
    
    if extension == "CR2":
-      Scan_CR2(partition)
+      print("Demo")
+      # Scan_CR2(partition)
 
    elif extension == "CR3":
-      file = input("\n==> File: ");
+      file = input("Enter File Path\n\n==> ");
+      # Creat new form
+      header(); print(name_part)
+      print(f"=> Scan {extension}\n=> {file}")
 
       # Lấy số byte để addbyte
       with open(file, "rb") as r:
@@ -86,13 +94,14 @@ def scan_image():
    else:
       # input extension
       print("Extension: CR2/CR3"); extension = input("\n==> "); header()
-      print("=> ",path, " => ",extension)
-      
+      print("=> ",path, " \n=> ",extension)
+
       if extension == "CR2":
          Scan_CR2_Image(path)
 
       elif extension == "CR3":
-         Scan_CR3_Image(path)
+         print("Demo")
+         # Scan_CR3_Image(path)
 
 #=============================================
 from Run.get_partition import get_partition_info
@@ -116,4 +125,5 @@ while True:
       header()
       # get partition & print
       get_part = info_part.splitlines()[int(select) - 1]
-      print(get_part[4:]); print("""\n#Scan #Get_Image"""); forks(get_part[7])
+      name_part = get_part[4:]
+      print(get_part[4:]); print("""\n#Scan #Get_Image"""); forks(get_part[7], name_part)
