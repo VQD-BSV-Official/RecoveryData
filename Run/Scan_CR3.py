@@ -1,3 +1,9 @@
+''' Demo_ByteCR3 find byte (have in cr3) count bytes ==> end
+All files captured with a device have the same count of bytes
+
+Input partition ==> C D E...etc. addbyte ==>  Demo_ByteCR3
+'''
+
 def Scan_CR3_Partition(partition, addbyte):
 	block_size = 512
 	data_disk = open(f"\\\\.\\{partition}:", "rb")
