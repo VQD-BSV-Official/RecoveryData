@@ -2,7 +2,8 @@ def Scan_CR3_Partition(partition, addbyte):
 	block_size = 512
 	data_disk = open(f"\\\\.\\{partition}:", "rb")
 	byte = data_disk.read(block_size) # read 512 byte first
-	offset = count = 0
+	offset = 0
+	count = 1
 	drec = False
 
 	while byte:
